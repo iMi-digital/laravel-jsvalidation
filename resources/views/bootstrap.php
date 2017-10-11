@@ -34,8 +34,13 @@
             },
 
             focusInvalid: false, // do not focus the last invalid input
-            <?php if (Config::get('jsvalidation.focus_on_error')): ?>
             invalidHandler: function(form, validator) {
+
+                var _submit = $('#pre-form :submit');
+
+                _submit.removeAttr('disabled');
+
+                <?php if (Config::get('jsvalidation.focus_on_error')): ?>
 
                 if (!validator.numberOfInvalids())
                     return;
@@ -45,8 +50,10 @@
                 }, <?php echo Config::get('jsvalidation.duration_animate') ?>);
                 $(validator.errorList[0].element).focus();
 
+
+                <?php endif; ?>
             },
-            <?php endif; ?>
+
 
             rules: <?php echo json_encode($validator['rules']); ?>
         })
